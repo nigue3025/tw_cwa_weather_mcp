@@ -1,0 +1,38 @@
+# Exclude build artifacts
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Exclude virtual environments
+venv/
+env/
+ENV/
+
+# Exclude IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Exclude API keys
+GOV_api_key.txt
+GOV_API_KEY.txt
+Documents/API_KEY.txt
+
+# Exclude PyInstaller files
+*.spec
+
+# Exclude test files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Exclude OS files
+.DS_Store
+Thumbs.db
