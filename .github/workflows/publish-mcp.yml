@@ -32,10 +32,11 @@ jobs:
 
       - name: Publish to PyPI
         working-directory: ./cwa_api
+        continue-on-error: true
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: twine upload dist/*
+        run: twine upload dist/* --skip-existing
 
       - name: Wait for PyPI to index package
         run: sleep 30
