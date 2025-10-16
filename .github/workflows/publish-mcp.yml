@@ -44,17 +44,10 @@ jobs:
       - name: Install MCP Publisher
         run: |
           echo "Installing MCP Publisher..."
-          ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
-          OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-          echo "OS: $OS, ARCH: $ARCH"
-          URL="https://github.com/modelcontextprotocol/registry/releases/download/latest/mcp-publisher_${OS}_${ARCH}.tar.gz"
-          echo "Downloading from: $URL"
-          curl -L -f "$URL" -o mcp-publisher.tar.gz || { echo "Download failed"; exit 1; }
-          echo "Extracting..."
-          tar -xzf mcp-publisher.tar.gz || { echo "Extraction failed"; exit 1; }
+          wget -O mcp-publisher "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')"
           chmod +x mcp-publisher
           echo "Verifying installation..."
-          ./mcp-publisher --version || { echo "MCP Publisher not working"; exit 1; }
+          ./mcp-publisher --version
 
       - name: Login to MCP Registry
         run: ./mcp-publisher login github-oidc
