@@ -44,7 +44,7 @@ jobs:
       - name: Install MCP Publisher
         run: |
           echo "Installing MCP Publisher..."
-          wget https://github.com/modelcontextprotocol/registry/releases/download/mcp-publisher-v0.1.0/mcp-publisher_linux_amd64.tar.gz
+          wget https://github.com/modelcontextprotocol/registry/releases/download/v1.3.1/mcp-publisher_linux_amd64.tar.gz
           tar -xzf mcp-publisher_linux_amd64.tar.gz
           chmod +x mcp-publisher
           echo "Verifying installation..."
