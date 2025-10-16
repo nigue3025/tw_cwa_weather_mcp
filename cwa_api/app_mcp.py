@@ -1,35 +1,54 @@
-#from flask import Flask, request, Response
 import requests
 import json
 from mcp.server.fastmcp import FastMCP
 import logging
-#app = Flask(__name__)
-
+import os
+from pathlib import Path
 
 mcp = FastMCP("Taiwan_weather")
 
+# Get the directory where this module is located
+MODULE_DIR = Path(__file__).parent
+
 def get_api_key(filename='GOV_api_key.txt'):
-    try:
-        with open(filename, 'r') as file:
-            api_key = file.read().strip()
-            if api_key:
-                return api_key 
-    except FileNotFoundError:
-        return None
-   # with open(filename, 'r') as file:
-   #     api_key = file.read().strip()
-   # return api_key
+    """Try to load API key from file in current directory or module directory"""
+    # Try current directory first
+    if os.path.exists(filename):
+        try:
+            with open(filename, 'r') as file:
+                api_key = file.read().strip()
+                if api_key:
+                    return api_key
+        except FileNotFoundError:
+            pass
+    
+    # Try module directory
+    module_file = MODULE_DIR / filename
+    if module_file.exists():
+        try:
+            with open(module_file, 'r') as file:
+                api_key = file.read().strip()
+                if api_key:
+                    return api_key
+        except FileNotFoundError:
+            pass
+    
+    return None
 
 def load_alias_county_name(filename='aliased.txt'):
+    """Load county name aliases from file"""
     alias_county_name = {}
-    with open(filename, 'r', encoding='utf-8') as file:
+    filepath = MODULE_DIR / filename
+    with open(filepath, 'r', encoding='utf-8') as file:
         for line in file:
             key, value = line.strip().split(',')
             alias_county_name[key] = value
     return alias_county_name
 
 def load_counties(filename='counties.txt'):
-    with open(filename, 'r', encoding='utf-8') as file:
+    """Load list of available counties from file"""
+    filepath = MODULE_DIR / filename
+    with open(filepath, 'r', encoding='utf-8') as file:
         return [line.strip() for line in file]
 
 alias_county_name = load_alias_county_name()
